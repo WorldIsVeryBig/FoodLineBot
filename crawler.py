@@ -1,7 +1,6 @@
 import requests
 from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
 
 
 class Food(ABC):
@@ -33,27 +32,27 @@ class IFoodie(Food):
             soup = BeautifulSoup(response.content, "html.parser")
             # 爬取前五筆餐廳卡片資料
             cards = soup.find_all(
-                'div', {'class': 'jsx-3292609844 restaurant-info'}, limit=5)
+                'div', {'class': 'jsx-1309326380 restaurant-info'}, limit=5)
             if cards:
                 for card in cards:
                     # 餐廳名稱
-                    title = card.find("a", {"class": "jsx-3292609844 title-text"}).getText()
+                    title = card.find("a", {"class": "jsx-1309326380 title-text"}).getText()
                     # 營業時間
-                    business_hour = card.find("div", {"class": "jsx-3292609844 info"}).getText().split(': ')[1]
+                    business_hour = card.find("div", {"class": "jsx-1309326380 info"}).getText().split(': ')[1]
                     # 餐廳評價
-                    stars = card.find("div", {"class": "jsx-1207467136 text"}).getText()
+                    stars = card.find("div", {"class": "jsx-2373119553 text"}).getText()
                     # 餐廳地址
-                    address = card.find("div", {"class": "jsx-3292609844 address-row"}).getText()
+                    address = card.find("div", {"class": "jsx-1309326380 address-row"}).getText()
                     #餐廳網址
-                    restaurant_url = card.find("a", {"class": "jsx-3292609844"}).get('href')
+                    restaurant_url = card.find("a", {"class": "jsx-1309326380"}).get('href')
 
                     restaurant_response = requests.get("https://ifoodie.tw" + restaurant_url)
                     if restaurant_response.status_code == 200:
                         re_soups = BeautifulSoup(restaurant_response.content, "html.parser")
-                        restaurant_cards = re_soups.find_all("div", {"class": "jsx-1969054371 restaurant-info"})
+                        restaurant_cards = re_soups.find_all("div", {"class": "jsx-2591663717 restaurant-info"})
                         for restaurant_card in restaurant_cards:
                             #聯絡電話
-                            phone_data = restaurant_card.find("div", {"class": "jsx-1969054371 phone-wrapper wrap"})
+                            phone_data = restaurant_card.find("div", {"class": "jsx-2591663717 phone-wrapper wrap"})
                             phone = phone_data.getText()[5:] if phone_data else "無電話資訊"
                         content += f"{title} \n營業時間:{business_hour} \n{stars}顆星 \n{address}\n聯絡電話: {phone}\n餐廳網址： https://ifoodie.tw{restaurant_url} \n\n"
             else:

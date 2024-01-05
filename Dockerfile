@@ -13,4 +13,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app", "--preload"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app", "--preload"]
